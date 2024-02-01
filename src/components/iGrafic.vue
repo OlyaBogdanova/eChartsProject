@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full min-h-56" :id="id"></div>
+  <div class="w-full" :id="id" :class="height"></div>
 </template>
 <script setup>
 import { onMounted } from 'vue'
@@ -11,13 +11,19 @@ const props = defineProps({
   id: {
     type: String,
     required: true
+  },
+  height: {
+    type: String,
+    default: 'h-72'
   }
 })
 let myChart = null
 
 onMounted(() => {
   myChart = echarts.init(document.getElementById(props.id))
-
+  window.addEventListener('resize', function () {
+    myChart.resize()
+  })
   myChart.setOption(props.options)
 })
 </script>
